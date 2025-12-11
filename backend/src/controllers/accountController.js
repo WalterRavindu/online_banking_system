@@ -2,13 +2,15 @@ const  pool  = require('../config/db'); // make sure pool is imported
 require('dotenv').config();
 
 exports.createAccount = async (req, res) => {
-  //const { user_id, account_type } = req.body;
-  const { account_type } = req.body;
-  const email = req.user.email; // from login token
+  const { user_id, account_type } = req.body;
+  //const { account_type } = req.body;
+  //const email = req.user.email; // from login token
 
   if (!user_id || !account_type) {
     return res.status(400).json({ message: "Email and account_type are required" });
   }
+
+  console.log(user_id);
 
   try {
     /*
@@ -42,3 +44,31 @@ exports.createAccount = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.getUserAccounts = async (req, res) => {
+  //const user_id = req.user.user_id; // from JWT
+
+  try {
+    /*
+    const accounts = await pool.query(
+      "SELECT * FROM accounts WHERE user_id = $1",
+      [user_id]
+    );
+*/
+
+    const accounts = await pool.query(
+      "SELECT * FROM accounts "
+    );
+
+
+    res.json({
+      count: accounts.rows.length,
+      accounts: accounts.rows
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+

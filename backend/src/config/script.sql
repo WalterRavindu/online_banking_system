@@ -25,10 +25,10 @@ CREATE TABLE accounts (
 
 
 CREATE TABLE transactions (
-  id SERIAL PRIMARY KEY,
-  from_acc INT REFERENCES accounts(account_id),
-  to_acc INT REFERENCES accounts(account_id),
-  amount NUMERIC(12, 2),
-  type VARCHAR(20),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    transaction_id SERIAL PRIMARY KEY,
+    account_id INT REFERENCES accounts(account_id),
+    transaction_type VARCHAR(20),
+    amount DECIMAL(10, 2),
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
